@@ -432,7 +432,7 @@ class Jenkins(object):
         all_builds_loaded = (oldest_loaded_build_number == first_build_number)
         if all_builds_loaded:
             return data
-        folder_url, short_name = self._get_job_folder(data["name"])
+        folder_url, short_name = self._get_job_folder(data["fullName"])
         response = self.jenkins_open(requests.Request(
             'GET', self._build_url(ALL_BUILDS, locals())
         ))
@@ -440,7 +440,7 @@ class Jenkins(object):
             data["builds"] = json.loads(response)["allBuilds"]
         else:
             raise JenkinsException('Could not fetch all builds from job[%s]' %
-                                   data["name"])
+                                   data["fullName"])
         return data
 
     def get_job_info(self, name, depth=0, fetch_all_builds=False):
