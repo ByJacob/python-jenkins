@@ -1,7 +1,7 @@
 cmd2!=0.8.3,<0.9.0;python_version<'3.0'  # MIT
 cmd2!=0.8.3;python_version>='3.0'  # MIT
 coverage>=3.6
-mock<1.1
+mock
 unittest2
 python-subunit
 requests-mock>=1.4.0
