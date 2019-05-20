@@ -128,7 +128,7 @@ class JenkinsGetJobsTest(JenkinsGetJobsTestBase):
         self.assertEqual(
             session_send_mock.call_args_list[1][0][1].url,
             self.make_url(
-                'view/Test%20View/api/json?tree=jobs[url,color,name]'
+                'view/Test%20View/api/json?tree=jobs%5Burl,color,name%5D'
             ))
         self.assertEqual(
             str(context_manager.exception),

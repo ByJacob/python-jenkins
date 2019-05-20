@@ -6,7 +6,8 @@ unittest2
 python-subunit
 requests-mock>=1.4.0
 requests-kerberos
-sphinx>=1.6.0
+sphinx>=1.6.0,<2.0.0;python_version=='2.7'  # BSD
+sphinx>=1.6.0;python_version>='3.4'  # BSD
 stestr>=2.0.0
 testscenarios
 testtools
