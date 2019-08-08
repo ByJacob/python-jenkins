@@ -2136,9 +2136,14 @@ class Jenkins(object):
         folder_url, short_name = self._get_job_folder(folder_name)
         name = self._get_tag_text('id', config_xml)
         self.assert_credential_exists(name, folder_name, domain_name)
+
+        reconfig_url = self._build_url(CONFIG_CREDENTIAL, locals())
+
         self.jenkins_open(requests.Request(
-            'POST', self._build_url(CONFIG_CREDENTIAL, locals())
-            ))
+            'POST', reconfig_url,
+            data=config_xml.encode('utf-8'),
+            headers=DEFAULT_HEADERS
+        ))
 
     def list_credentials(self, folder_name, domain_name='_'):
         '''List credentials in domain of folder

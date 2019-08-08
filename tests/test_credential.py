@@ -332,6 +332,10 @@ class JenkinsReconfigCredentialTest(JenkinsCredentialTestBase):
             jenkins_mock.call_args_list[2][0][0].url,
             self.make_url('job/Test%20Folder/credentials/store/folder/domain/'
                           '_/credential/Test%20Credential/config.xml'))
+        self.assertEqual(
+            jenkins_mock.call_args_list[2][0][0].data,
+            self.config_xml.encode('utf-8'))
+
         self._check_requests(jenkins_mock.call_args_list)
 
 
