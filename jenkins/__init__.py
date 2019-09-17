@@ -110,6 +110,7 @@ CONFIG_JOB = '%(folder_url)sjob/%(short_name)s/config.xml'
 DELETE_JOB = '%(folder_url)sjob/%(short_name)s/doDelete'
 ENABLE_JOB = '%(folder_url)sjob/%(short_name)s/enable'
 DISABLE_JOB = '%(folder_url)sjob/%(short_name)s/disable'
+CHECK_JENKINSFILE_SYNTAX = 'pipeline-model-converter/validateJenkinsfile'
 SET_JOB_BUILD_NUMBER = '%(folder_url)sjob/%(short_name)s/nextbuildnumber/submit'
 COPY_JOB = '%(from_folder_url)screateItem?name=%(to_short_name)s&mode=copy&from=%(from_short_name)s'
 RENAME_JOB = '%(from_folder_url)sjob/%(from_short_name)s/doRename?newName=%(to_short_name)s'
@@ -1181,6 +1182,22 @@ class Jenkins(object):
             self.reconfig_job(name, config_xml)
         else:
             self.create_job(name, config_xml)
+
+    def check_jenkinsfile_syntax(self, jenkinsfile):
+        '''Checks if a Pipeline Jenkinsfile has a valid syntax
+
+        :param jenkinsfile: Jenkinsfile text, ``str``
+        :returns: List of errors in the Jenkinsfile. Empty list if no errors.
+        '''
+        # https://jenkins.io/doc/book/pipeline/development/#linter
+        # JENKINS_CRUMB=`curl "$JENKINS_URL/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
+        # curl -X POST -H $JENKINS_CRUMB -F "jenkinsfile=<Jenkinsfile" $JENKINS_URL/pipeline-model-converter/val
+        url = self._build_url(CHECK_JENKINSFILE_SYNTAX, locals())
+        the_data = {
+            "jenkinsfile": jenkinsfile
+        }
+        response = self.jenkins_request(requests.Request('POST', url, data=the_data))
+        return response.json().get("data", {}).get("errors", [])
 
     def create_job(self, name, config_xml):
         '''Create a new Jenkins job

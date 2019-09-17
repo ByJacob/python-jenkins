@@ -104,5 +104,6 @@ def build_response_mock(status_code, json_body=None, headers=None,
     # and accessed by key
     response.headers = real_response.headers
     response.content = text
+    response.json = lambda: json_body
 
     return response
