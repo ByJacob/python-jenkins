@@ -1170,6 +1170,18 @@ class Jenkins(object):
         if not self.job_exists(name):
             raise JenkinsException(exception_message % name)
 
+    def upsert_job(self, name, config_xml):
+        '''Create a new Jenkins job or reconfigures it if it exists
+
+        :param name: Name of Jenkins job, ``str``
+        :param config_xml: config file text, ``str``
+        '''
+
+        if self.job_exists(name):
+            self.reconfig_job(name, config_xml)
+        else:
+            self.create_job(name, config_xml)
+
     def create_job(self, name, config_xml):
         '''Create a new Jenkins job
 
