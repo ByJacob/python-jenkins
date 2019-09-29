@@ -10,7 +10,7 @@
 
 - project:
     templates:
-      - docs-on-readthedocs-failing
+      - build-openstack-docs-pti
       - openstack-cover-jobs
       - openstack-python35-jobs
       - openstack-python36-jobs
